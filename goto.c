@@ -5,12 +5,12 @@
 
 int main(void) {
     int i;
-    for(i = 0; i < 10; i++) {
+    for(i = 1; i < 10; i++) {
         printf("inside i = %d\n", i);
         goto out;
 inend: //when it jumps here it ignores the for loop, all for loop data is lost
         printf("back into\n");
-        continue;
+        //continue;
     }
 out:
         printf("outside i = %d\n", i);

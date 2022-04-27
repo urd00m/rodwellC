@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <unistd.h>
+
 //#define DEBUG 1
 
 int main(void) {
@@ -57,7 +62,7 @@ int main(void) {
     QBC2=0.0;
     MF2=52073.0;
     TZ6=5088.0;
-    //MUG2=1000.0;
+    MUG2=1000.0;
     QBC3=68242.84;
     QBC4=68242.84;
     QBC5=68242.84;
@@ -195,7 +200,7 @@ L260:
     //******************TOP OF LOOP***********************
     
     for(i=1;  i<=11250000; i++) {
-        printf("TIME=%f\n",TI);
+        //printf("TIME=%f\n",TI);
         if (MWG > MGO) goto L1220; //! bulb water volume .gt. initilaize volume
         if (TI > TZ3) goto L1220; // ! time .gt. formation period
         if (J == 1) goto L280; // ! not sure why we branch here, bulb formation?
@@ -265,7 +270,7 @@ L284:
         TAU = ALPHAI * TI / (RO * RO);
         RHOA = .4758/ (TA + 460.0);
         TAP = TA+(HA*AB*(TW-TA)+HI*AI*(TS-TA))*DT/(RHOA*VA*CPA);
-        printf("TAP=%f\n", TAP);
+        //printf("TAP=%f\n", TAP);
 L418:
         FB = (5.0*(BO*BO*BO))/36.0-BO/4.0+1.0/9.0+(1.0/3.0-BO/2.0)*log(BO)-TAU*(BO-1.0+log(BO));
         FBP = (5.0*(BO*BO))/12.0 - .25-log(BO)/2.0+(1.0/3.0-BO/2.0)/BO-TAU*(1.0+1.0/BO);
