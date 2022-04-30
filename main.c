@@ -29,7 +29,7 @@ int main(void) {
     printf("Current working directory: %s\n", path);
 
 
- /*
+    /*
     if ((fptr = fopen("input.txt","r")) == NULL){
         printf("Error: opening file for read\n");
 
@@ -38,14 +38,14 @@ int main(void) {
     }
 
  
-//if you want to update this later to rapidly change the input data without recompiling,
-//list the input variables here per the example below
+     //if you want to update this later to rapidly change the input data without recompiling,
+     //list the input variables here per the example below
  
     fscanf(fptr,"%lf", &TZ3); //hrs
 
 
     fclose(fptr);
-*/
+     */
     
     // ****** PUT YOUR INPUTS HERE ******
     TZ3=216.0;
@@ -55,7 +55,6 @@ int main(void) {
     TZ4=2064.0;
     QBC1=68242.84;
     MUG1=10.0;
-    //MUG2=MUG1;
     MF1=52073.0;
     TZ3E=88000.0;
     TZ5=96.0;
@@ -73,36 +72,33 @@ int main(void) {
     MUGW=10.0;
     TICE=-80.0;
     TWB=68.0;
+    // ****** END YOUR INPUTS HERE ******
     
-
-    AL = 0.30; // Firn loss parameter 40
-    ALPHAI = .0446; // ft2/hr 41
-    BO = 1.1; //
-    CPA = 0.24; // old value 0.199; // BTU /lb-F, Cp air 43
-    CPI = 0.5; // Cp ice 44
-    CPW = 1.0; // Cp water
-    
-    DT = 8.333001E-03; // hrs (30 secs) 47
+    // ****** DEFAULT PARAMETERS DO NOT CHANGE *****
+    AL = 0.30;                                      // Firn loss parameter 40
+    ALPHAI = .0446;                                 // ft2/hr 41
+    BO = 1.1;
+    CPA = 0.24;                                     // old value 0.199; // BTU /lb-F, Cp air 43
+    CPI = 0.5;                                      // Cp ice 44
+    CPW = 1.0;                                      // Cp water
+    DT = 8.333001E-03;                              // hrs (30 secs) 47
     EIT = 0.0;
     E = 0.0;
     FI = 0.90;
     GAM = 1.0;
     H = 10.0;
-    HA = 1.0; // Original 0.725;
+    HA = 1.0;                                       // Original 0.725;
     HB = 60.0;
-    HI = 1.0; // original 0.725;
-    HS = 32.5; // BTU/hr-ft2-F 56
+    HI = 1.0;                                       // original 0.725;
+    HS = 32.5;                                      // BTU/hr-ft2-F 56
     HBN = 24.0;
     HSN = 32.5;
     HSO = 32.5;
     J = 1;
-    KI = 1.28; //BTU/hr-ft-F, ice/firn conductivity 61
+    KI = 1.28;                                      // BTU/hr-ft-F, ice/firn conductivity 61
     MU = 0.0;
     MUD = 7549.5;
-    MWG = 0.0; // gallons, bulb water volume in gallons
-    //MFS=7549.5;
-    //MFW=7549.5; //5033.0;
-    
+    MWG = 0.0;                                      // gallons, bulb water volume in gallons
     MGW = 1106533.0;
     N = 1;
     OMEGA = 5.399;
@@ -112,18 +108,17 @@ int main(void) {
     PLT = 0.0;
     PMT = 0.0;
     PRWT = 0.0;
-    
     QS = 0.0;
     QT = 0.0;
     QTT = 0.0;
     QIT = 0.0;
-    RA = 1.5; //ft, drill radius
-    RHOIS = 45.0; //lbm/ft3, start close-off density of firn
-    RHOIM = 57.54; // !lbm/ft3, max firn density
-    RHOW = 62.6; // ! lbm/ft3, water density
-    RO = RA; // ! ft
+    RA = 1.5;                                       // ft, drill radius
+    RHOIS = 45.0;                                   // lbm/ft3, start close-off density of firn
+    RHOIM = 57.54;                                  // lbm/ft3, max firn density
+    RHOW = 62.6;                                    // lbm/ft3, water density
+    RO = RA;                                        // ft
     
-// TIME PARAMETERS
+    // ****** TIME PARAMETERS ******
     TAUP = 0.0;
     TI = 0.0;
     TIS = 0.0;
@@ -134,79 +129,66 @@ int main(void) {
     TZ2 = 240.0;
     TZS = TZ1 - TZ6;
     
-    //TZS = TZ1 - TZ6; // ! Summer duration (days)
-// TEMPERATURES
+    // ****** TEMPERATURES ******
     TF = 32.0;
     TA=TICE;
     TS=TICE;
-//124.0;
     TW=TWB;
-    
+
+    // ***** MORE PARAMETERS ******
     ZS = pow(((RHOIS - 20.18)/2.4996),(1/0.45));
-
-    D = 2.82843*RO;// !ft, diameter of bulb
+    D = 2.82843*RO;                                 // ft, diameter of bulb
     MFA = MF ;
-    MW = PI * RA * RA * H * RHOW ; //!lbm, water mass
+    MW = PI * RA * RA * H * RHOW ;                  // lbm, water mass
     MWO = MW ;
-    HWB = DEPTH + H; //ft, depth to well bottom
-    MWGA = MW / (.134 * RHOW); // ! gallons, convert bulb water mass to volume in gallons
+    HWB = DEPTH + H;                                // ft, depth to well bottom
+    MWGA = MW / (.134 * RHOW);                      // gallons, convert bulb water mass to volume in gallons
     LE = 144.0 + CPI * (TF - TICE) * OMEGA;
-    AB = PI * (D * D)/4.0; // ! ft2, air-water interface area
-    HW = H; // ! ft, water depth
-    AS = 2.0*PI*D*H/3.0; // ! ft2, water-ice contact area
-    VW = PI*D*D*H/8.0; // ! ft3, water volume in bulb
-    AI = 2.0 * PI * RA * DEPTH; // ! ft2, air-ice contact area
-    VA = PI * RA * RA * DEPTH; // ! ft3, air volume
+    AB = PI * (D * D)/4.0;                          // ft2, air-water interface area
+    HW = H;                                         // ft, water depth
+    AS = 2.0*PI*D*H/3.0;                            // ft2, water-ice contact area
+    VW = PI*D*D*H/8.0;                              // ft3, water volume in bulb
+    AI = 2.0 * PI * RA * DEPTH;                     // ft2, air-ice contact area
+    VA = PI * RA * RA * DEPTH;                      // ft3, air volume
 
+    // Open output file
     if ((fptr = fopen("./output.txt","w")) == NULL){
         printf("Error: opening file for write\n");
 
         // Program exits if the file pointer returns NULL.
         return(1);
     }
-L130:
+
+    // Print initial parameters
     fprintf(fptr,"%s","WITHDRAWAL RATE = 100 gal/day\n");
-L140:
     fprintf(fptr,"BOILER WATER TEMP DEG F = %f\n",TWB);
-L150:
     fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr = %f\n",MF);
-L160:
     fprintf(fptr,"CONVECTIVE COEFFICIENT BTU/HR-FT2-F = %f\n",HS);
     fprintf(fptr,"INITIAL DRILL RADIUS FT = %f\n",RA);
     fprintf(fptr,"DEPTH TO TOP OF WATER AT START FT = %f\n", DEPTH);
-L180:
     fprintf(fptr,"INITIAL PARABOLIC WATER DIAMETER D FT = %f\n", D);
-L191:
     fprintf(fptr,"INITIAL PARABOLIC WATER HEIGHT HW FT = %f\n",HW);
-L200:
     fprintf(fptr,"INITIAL WATER TEMP TW DEG F = %f\n",TW);
-L201:
     fprintf(fptr,"INITIAL AIR TEMP TA DEG F = %f\n",TA);
-L202:
     fprintf(fptr,"INITIAL ICE SURFACE TEMP TS DEG F = %f\n",TS);
-L210:
     fprintf(fptr,"AMBIENT ICE TEMP DEG F = %f\n",TICE);
-L220:
     fprintf(fptr,"EFFECTIVE LATENT HEAT BTU/LB = %f\n",LE);
-L222:
     fprintf(fptr,"\n");
-L221:
     fprintf(fptr,"TIME IN HRS, WATER VOL MW GALLONS, ICE AREA AI FT2, AIR VOL VA FT3\n");
     fprintf(fptr,"TIME \tTW \tTA \tTS \tMW \tD \tHW \tHWB \tAI \tVA\n");
-L253:
     fprintf(fptr,"%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TW, TA, TS, MWGA, D, HW, HWB, AI, VA);
 
-L260:
-    //******************TOP OF LOOP***********************
     
+    //******************TOP OF LOOP***********************
+L260:
     for(i=1;  i<=11250000; i++) {
         //printf("TIME=%f\n",TI);
-        if (MWG > MGO) goto L1220; //! bulb water volume .gt. initilaize volume
-        if (TI > TZ3) goto L1220; // ! time .gt. formation period
-        if (J == 1) goto L280; // ! not sure why we branch here, bulb formation?
+        if (MWG > MGO) goto L1220;                  // bulb water volume .gt. initilaize volume
+        if (TI > TZ3) goto L1220;                   // time > formation period
+        if (J == 1) goto L280;                      // not sure why we branch here, bulb formation?
 
 L400:
-        if (TI < TAUP) { //! not sure what taup is
+        if (TI < TAUP) {                            // not sure what taup is
             MF = 0.0;
             MUG = MUGA;
             MU = MUD;
@@ -216,17 +198,18 @@ L400:
             MU = 0.0;
         }
 L280:
-        ZP = HWB-H/2.0; // ! ft, average bulb depth
+        ZP = HWB-H/2.0;                             // ft, average bulb depth
         RHOI = 20.18 + 2.4996 * pow(ZP,0.45);
         if(ZP > 394.0) RHOI=RHOIM;
     
-    //! compute the change in water depth, h (eq. 7)
+        // compute the change in water depth, h (eq. 7)
 L291:
         DELH = 16.0*H*(HS*(TW-TF)-QS)*DT/(RHOI*LE*3.0*(2.0*GAM*H+D));
         HP = H+DELH;
         DP = D+GAM*DELH;
         HWBP = HWB+DELH;
-//! assumes full shut-off of water leakage into firn at ZS.
+        
+        // assumes full shut-off of water leakage into firn at ZS
         ZPS = HWB-ZS;
         ASP = 2.0*PI*D*H/3.0;
         
@@ -238,14 +221,13 @@ L291:
             RHOI = 20.18 + 2.4996 * pow(ZPP,0.45);
         }
 L283:
-        MUL = AL*ASP*(RHOIS - RHOI); // ! water mass lost to rn
+        MUL = AL*ASP*(RHOIS - RHOI);                // water mass lost to rn
         if(MF == 0.0) goto L284;
         TWB = QBC/(CPW*MF) + TW;
 L284:
         TWP = TW+(MF*(TWB-TW)-HS*AS*(TW-TF)*(1.0/CPW+(TW-TF)/LE-QS/(LE*HS))-HA*AB*(TW-TA)/CPW)*DT/MW;
 
         MWP = MW+(((TW-TF)*HS-QS)*AS/LE-MU-MUL)*DT;
-        //printf("MWP=%f,AS=%f,%f,%f,%f\n",MWP,AS,LE,MU,MUL);
         MWG = MWP / (.134 * RHOW);
         VWP = MWP / RHOW;
         HF = sqrt(8.0*VWP*HP/PI)/DP;
@@ -310,7 +292,7 @@ L1041:
         if(TI > TZ2) goto L1220;
         if(TI > TZ1) goto L1220;
     }
-    
+    //******************END OF LOOP***********************
     
     goto L1760;
 L1075:
@@ -351,6 +333,8 @@ L1280:
     EFI = EI / 140000.0;
     QITI = QIT - QTT;
     QTT = QIT;
+    
+    // Print out output
 L1340:
     fprintf(fptr,"TOTAL ENERGY INPUT BTU \t\t= \t%e\n",E);
     fprintf(fptr,"SEASONAL ENERGY INPUT BTU \t= \t%e\n",EI);
@@ -365,6 +349,8 @@ L1340:
     fprintf(fptr,"SEASONAL WATER WITHDRAWN GAL \t=\t%f\n",PMG);
     fprintf(fptr,"TOTAL WATER LOSS GAL \t\t=\t%f\n",PLT/(.134*RHOW));
     fprintf(fptr,"SEASONAL WATER LOSS GAL \t\t=\t%f\n",PLG);
+    
+    // TODO: Looks like year dispatch
 L1430:
     fprintf(fptr,"\n");
     if(N == 1) goto L1490;
@@ -401,6 +387,8 @@ L1430:
     */
     //CCC **** END OF YEAR 1O **** 359
     if(N == 22) goto L1760;
+    
+    // TODO: Handles different years
 L1490:
     MGO = MGW;
     MF = MF1;
@@ -465,6 +453,8 @@ L1210:
     MU = MUD;
     TAUP = TP+MUGA*.134*RHOW/MUD-TPI;
     TPIW = 168.0;
+    
+    // Output year number
 L1550:
     fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ);
     fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL");
@@ -478,27 +468,23 @@ L1553:
     fprintf(fptr,"W\t\tINTER WATER WITHDRAWAL");
 L1555:
     fprintf(fptr,"\n");
-L1580:
+
+    // ****** Initial parameter output ******
     fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr \t=\t%f\n",MFA);
     fprintf(fptr,"BOILER WATER TEMPERATURE DEG F \t=\t%f\n",TWB);
-L1610:
     fprintf(fptr,"WATER WITHDRAWAL GAL/DAY \t\t=\t%f\n",MUGA);
     fprintf(fptr,"WITHDRAWAL FLOW RATE GAL/MIN \t=\t%f\n",MUD/(8.04*RHOW));
-L1640:
     fprintf(fptr,"CONVECTIVE COEFF AFTER R=30 FT BTU/HR-FT2-F \t=\t%f\n",HS);
-L1672:
     fprintf(fptr,"START WITHDRAWAL AT HOUR \t\t=\t%f\n",TI);
     fprintf(fptr,"\n");
     goto L400;
+    
+    // ******* More outputs ******
 L1760:
     fprintf(fptr,"\n");
-L1790:
     fprintf(fptr,"TOTAL ENERGY INPUT BTU = %e\n",E);
-L1820:
     fprintf(fptr,"TOTAL ENERGY INPUT GAL FUEL = %f\n",E/140000.);
-L1821:
     fprintf(fptr,"TOTAL ENERGY LOSS AIR TO ICE BTU = %e\n",QIT);
-L1850:
     fclose(fptr);
     printf("END\n");
     return 0;
