@@ -69,6 +69,8 @@
       PLT = 0.0
       PMT = 0.0
       PRWT = 0.0
+
+
       QS = 0.0
       QT = 0.0
       QTT = 0.0
@@ -96,9 +98,11 @@
       TS = TICE
       TW = TWB
 ! depth at which shut-off starts in firn.
+
         ZS = ((RHOIS - 20.18)/2.4996)**(1/0.45) ! Greenland data
 ! ZS = (.144-SQRT((.144)**2-4.0*(RHOIS-21.79)*.00017894))/(2.0*.00017894)  ! Antarctic data
       ! ZS=H
+
       D = 2.82843*RO !ft, diameter of bulb
       MFA = MF
       MW = PI * RA * RA * H * RHOW !lbm, water mass

@@ -78,7 +78,7 @@ int main(void) {
     AL = 0.30; // Firn loss parameter 40
     ALPHAI = .0446; // ft2/hr 41
     BO = 1.1; //
-    CPA = 0.199; // BTU /lb-F, Cp air 43
+    CPA = 0.24; // old value 0.199; // BTU /lb-F, Cp air 43
     CPI = 0.5; // Cp ice 44
     CPW = 1.0; // Cp water
     
@@ -88,9 +88,9 @@ int main(void) {
     FI = 0.90;
     GAM = 1.0;
     H = 10.0;
-    HA = 0.725;
+    HA = 1.0; // Original 0.725;
     HB = 60.0;
-    HI = 0.725;
+    HI = 1.0; // original 0.725;
     HS = 32.5; // BTU/hr-ft2-F 56
     HBN = 24.0;
     HSN = 32.5;
@@ -100,8 +100,8 @@ int main(void) {
     MU = 0.0;
     MUD = 7549.5;
     MWG = 0.0; // gallons, bulb water volume in gallons
-    MFS=7549.5;
-    MFW=7549.5; //5033.0;
+    //MFS=7549.5;
+    //MFW=7549.5; //5033.0;
     
     MGW = 1106533.0;
     N = 1;
@@ -132,7 +132,7 @@ int main(void) {
     TPIW = 8.0;
     TZ1 = 8760.0; // ! 8760 days is one year
     TZ2 = 240.0;
-    TZS=TZ1-TZ6;
+    TZS = TZ1 - TZ6;
     
     //TZS = TZ1 - TZ6; // ! Summer duration (days)
 // TEMPERATURES
@@ -268,7 +268,7 @@ L284:
         QIT = QIT + QI;
         QB = QT / TI;
         TAU = ALPHAI * TI / (RO * RO);
-        RHOA = .4758/ (TA + 460.0);
+        RHOA = 6 / (TA + 460.0);
         TAP = TA+(HA*AB*(TW-TA)+HI*AI*(TS-TA))*DT/(RHOA*VA*CPA);
         //printf("TAP=%f\n", TAP);
 L418:
@@ -283,8 +283,6 @@ L425:
         B = BP;
         BO = BP +.1;
         TS = TICE+QB*RO*(B-1.0)*log(B)/(KI*(B-1.0+log(B)));
-        
-        
         if(J == 1) goto L1031;
         if(TI > TPW) goto L1130;
 L1028:
@@ -376,6 +374,7 @@ L1430:
     if(N == 4) goto L1520;
     if(N == 5) goto L1500;
     //CCC **** END OF YEAR 2 **** 335
+    /*
     if(N == 6) goto L1520;
     if(N == 7) goto L1500;
     //CCC **** END OF YEAR 3 **** 338
@@ -399,6 +398,7 @@ L1430:
     //CCC **** END OF YEAR 9 **** 356
     if(N == 20) goto L1520;
     if(N == 21) goto L1500;
+    */
     //CCC **** END OF YEAR 1O **** 359
     if(N == 22) goto L1760;
 L1490:
@@ -410,8 +410,8 @@ L1490:
     JJ = 1; // ! year;
     MFA = MF;
     TIS = TI;
-    int b=TI/8.0;
-    TP = (b)*8.0+TPI;
+    int b=TI/1.0;
+    TP = (b)*1.0+TPI;
     TZ1 = TP+TZ4;
     TZ2 = TZ1+TZ5;
     TZ3 = TZ3E;
