@@ -5,6 +5,104 @@
 
 //#define DEBUG 1
 
+// L1490 code just put into a macro
+#define L1490 MGO = MGW;  \
+                MF = MF1;  \
+                MUGA = MUG1;  \
+                N = N + 1;  \
+                J = J + 1;  \
+                JJ = 1; /* year; */  \
+                MFA = MF;  \
+                TIS = TI;  \
+                TP = ((int)TI/1.0)*1.0+TPI;  \
+                TZ1 = TP+TZ4;  \
+                TZ2 = TZ1+TZ5;  \
+                TZ3 = TZ3E;  \
+                QBC = QBC1;  \
+                MU = MUD;  \
+                TAUP = TP+MUGA*.134*RHOW/MUD-TPI;  \
+                TPIW = 168.0;  \
+                fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ);  \
+                fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL");  \
+                fprintf(fptr,"\n");  \
+                print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
+                goto L400;
+
+// N2 code put into macro
+#define N2 MGO = MGW; \
+                MF = MF2; \
+                MUGA = MUG2; \
+                N = N+1; \
+                JJ = 1; \
+                MFA = MF; \
+                MU = MUD; \
+                TIS = TI; \
+                TZ1 = TZ2+TZ6; \
+                QBC = QBC2; \
+                fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ); \
+                fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL"); \
+                fprintf(fptr,"\n"); \
+                print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
+                goto L400;
+
+// N3 code put into macro
+#define N3 MGO = MGW; \
+                MUGA = MUGW; \
+                MFA = MFS; \
+                N = N+1; \
+                JJ = 1; \
+                MU = MUD; \
+                TIS = TI; \
+                QBC = QBC3; \
+                TZ2 = TZ1+TZS; \
+                fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ); \
+                fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL"); \
+                fprintf(fptr,"\n"); \
+                print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
+                goto L400;
+
+// N4 code put into a macro
+#define N4 MGO = MGW; \
+                MUGA = MUGS; \
+                MFA = MFS; \
+                N = N+1; \
+                MU = MUD; \
+                JJ = JJ+1; \
+                TIS = TI; \
+                TZ1 = TZ2+TZ6; \
+                QBC = QBC4; \
+                fprintf(fptr,"\t\t\tYEAR=%d\n",JJ); \
+                fprintf(fptr,"S\t\tUMMER WATER WITHDRAWAL"); \
+                fprintf(fptr,"\n"); \
+                print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
+                goto L400;
+
+// N5 code put into a macro
+#define N5 MGO = MGW; \
+                MUGA = MUGW; \
+                MFA = MFS; \
+                N = N+1; \
+                MU = MUD; \
+                TZ2 = TZ1+TZS; \
+                TIS = TI; \
+                QBC = QBC5; \
+                fprintf(fptr,"\t\t\tYEAR=%d\n",JJ); \
+                fprintf(fptr,"W\t\tINTER WATER WITHDRAWAL"); \
+                fprintf(fptr,"\n"); \
+                print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
+                goto L400;
+
+// Prints the intial paramters
+void print_initial_parameter(FILE *fptr, double MFA, double TWB, double MUGA, double MUD, double RHOW, double HS, double TI) {
+    fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr \t=\t%f\n",MFA);
+    fprintf(fptr,"BOILER WATER TEMPERATURE DEG F \t=\t%f\n",TWB);
+    fprintf(fptr,"WATER WITHDRAWAL GAL/DAY \t\t=\t%f\n",MUGA);
+    fprintf(fptr,"WITHDRAWAL FLOW RATE GAL/MIN \t=\t%f\n",MUD/(8.04*RHOW));
+    fprintf(fptr,"CONVECTIVE COEFF AFTER R=30 FT BTU/HR-FT2-F \t=\t%f\n",HS);
+    fprintf(fptr,"START WITHDRAWAL AT HOUR \t\t=\t%f\n",TI);
+    fprintf(fptr,"\n");
+}
+
 int main(void) {
     int i,J,JJ;
     double TZ3,MGO,QBC,MF,TZ4,QBC1,MUG1,MF1,TZ3E;
@@ -74,6 +172,8 @@ int main(void) {
     TWB=68.0;
     // ****** END YOUR INPUTS HERE ******
     
+    
+    
     // ****** DEFAULT PARAMETERS DO NOT CHANGE *****
     AL = 0.30;                                      // Firn loss parameter 40
     ALPHAI = .0446;                                 // ft2/hr 41
@@ -125,7 +225,7 @@ int main(void) {
     TP = 8.0;
     TPI = 8.0;
     TPIW = 8.0;
-    TZ1 = 8760.0; // ! 8760 days is one year
+    TZ1 = 8760.0;                                   // 8760 days is one year
     TZ2 = 240.0;
     TZS = TZ1 - TZ6;
     
@@ -180,10 +280,9 @@ int main(void) {
 
     
     //******************TOP OF LOOP***********************
-L260:
     for(i=1;  i<=11250000; i++) {
         //printf("TIME=%f\n",TI);
-        if (MWG > MGO) goto L1220;                  // bulb water volume .gt. initilaize volume
+        if (MWG > MGO) goto L1220;                  // bulb water volume > initilaize volume
         if (TI > TZ3) goto L1220;                   // time > formation period
         if (J == 1) goto L280;                      // not sure why we branch here, bulb formation?
 
@@ -203,7 +302,6 @@ L280:
         if(ZP > 394.0) RHOI=RHOIM;
     
         // compute the change in water depth, h (eq. 7)
-L291:
         DELH = 16.0*H*(HS*(TW-TF)-QS)*DT/(RHOI*LE*3.0*(2.0*GAM*H+D));
         HP = H+DELH;
         DP = D+GAM*DELH;
@@ -220,13 +318,14 @@ L291:
             ASP = 2.0*PI*D*H*(1.0-pow((ZPS/H),1.5))/3.0;
             RHOI = 20.18 + 2.4996 * pow(ZPP,0.45);
         }
-L283:
-        MUL = AL*ASP*(RHOIS - RHOI);                // water mass lost to rn
-        if(MF == 0.0) goto L284;
-        TWB = QBC/(CPW*MF) + TW;
-L284:
+        
+        // water mass lost to rn
+        MUL = AL*ASP*(RHOIS - RHOI);
+        if(MF != 0.0)
+            TWB = QBC/(CPW*MF) + TW;
+        
+        // Unknown what this is doing
         TWP = TW+(MF*(TWB-TW)-HS*AS*(TW-TF)*(1.0/CPW+(TW-TF)/LE-QS/(LE*HS))-HA*AB*(TW-TA)/CPW)*DT/MW;
-
         MWP = MW+(((TW-TF)*HS-QS)*AS/LE-MU-MUL)*DT;
         MWG = MWP / (.134 * RHOW);
         VWP = MWP / RHOW;
@@ -252,27 +351,40 @@ L284:
         TAU = ALPHAI * TI / (RO * RO);
         RHOA = 6 / (TA + 460.0);
         TAP = TA+(HA*AB*(TW-TA)+HI*AI*(TS-TA))*DT/(RHOA*VA*CPA);
-        //printf("TAP=%f\n", TAP);
-L418:
-        FB = (5.0*(BO*BO*BO))/36.0-BO/4.0+1.0/9.0+(1.0/3.0-BO/2.0)*log(BO)-TAU*(BO-1.0+log(BO));
-        FBP = (5.0*(BO*BO))/12.0 - .25-log(BO)/2.0+(1.0/3.0-BO/2.0)/BO-TAU*(1.0+1.0/BO);
-        BP = BO - FB /FBP;
-        BZ = fabs(BP - BO);
-        if(BZ < .0001) goto L425;
-        BO = BP;
-        goto L418;
-L425:
+
+        // Unknown what the loop does
+        while(1) {
+            FB = (5.0*(BO*BO*BO))/36.0-BO/4.0+1.0/9.0+(1.0/3.0-BO/2.0)*log(BO)-TAU*(BO-1.0+log(BO));
+            FBP = (5.0*(BO*BO))/12.0 - .25-log(BO)/2.0+(1.0/3.0-BO/2.0)/BO-TAU*(1.0+1.0/BO);
+            BP = BO - FB /FBP;
+            BZ = fabs(BP - BO);
+            if(BZ < .0001) break;
+            BO = BP;
+        }
+        
+        // Unknown what this does
         B = BP;
         BO = BP +.1;
         TS = TICE+QB*RO*(B-1.0)*log(B)/(KI*(B-1.0+log(B)));
-        if(J == 1) goto L1031;
-        if(TI > TPW) goto L1130;
-L1028:
-        if(TI > TP) goto L1131;
-        goto L560;
-L1031:
-        if(TI > TP) goto L1128;
-L560:
+        if(J == 1) {
+            if(TI > TP) {
+                fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
+                TP = TP + TPI;
+                TPW=TP;
+            }
+        }
+        else {
+            if(TI > TPW) {
+                fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
+                TPW = TPW + TPIW;
+            }
+            if(TI > TP) {
+                TP = TP + TPI;
+                TAUP = TP +MUGA * .134 * RHOW/MUD - TPI ;
+            }
+        }
+        
+        // Unknown what this does
         HWB = HWBP;
         TW = TWP;
         TA = TAP;
@@ -281,39 +393,21 @@ L560:
         AB = (PI*(D*D))/4.0;
         AI = AIP;
         VA = VAP;
-        if (D > 60.0) goto L1010;
-        HS = HSO;
-        goto L1040;
-L1010:
-        HS = HSN;
-L1040:
-        if(TW < 32.0001) goto L1075;
-L1041:
-        if(TI > TZ2) goto L1220;
-        if(TI > TZ1) goto L1220;
+        if (D > 60.0) {
+            HS = HSN;
+        }
+        else {
+            HS = HSO;
+        }
+        if(TW < 32.0001) TW = 32.0; // TW drops to low, reset it
+        if(TI > TZ2 || TI > TZ1) goto L1220;
     }
     //******************END OF LOOP***********************
     
-    goto L1760;
-L1075:
-    TW = 32.0;
-    goto L1041;
-L1128:
+    goto L1760;                                 // Jump to finished output
+    
+L1220: // Print item in table
     fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
-    TP = TP + TPI;
-    TPW=TP;
-    goto L560;
-L1130:
-    fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
-    TPW = TPW + TPIW;
-    goto L1028;
-L1131:
-    TP = TP + TPI;
-    TAUP = TP +MUGA * .134 * RHOW/MUD - TPI ;
-    goto L560;
-L1220:
-    fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
-L1280:
     fprintf(fptr,"\n");
     EI = E - EIT;
     ESR = EI/(TI-TIS);
@@ -333,9 +427,7 @@ L1280:
     EFI = EI / 140000.0;
     QITI = QIT - QTT;
     QTT = QIT;
-    
-    // Print out output
-L1340:
+
     fprintf(fptr,"TOTAL ENERGY INPUT BTU \t\t= \t%e\n",E);
     fprintf(fptr,"SEASONAL ENERGY INPUT BTU \t= \t%e\n",EI);
     fprintf(fptr,"SEASONAL ENERGY INPUT GAL FUEL \t= \t%f\n",EFI);
@@ -351,15 +443,22 @@ L1340:
     fprintf(fptr,"SEASONAL WATER LOSS GAL \t\t=\t%f\n",PLG);
     
     // TODO: Looks like year dispatch
-L1430:
     fprintf(fptr,"\n");
-    if(N == 1) goto L1490;
-    if(N == 2) goto L1204;
-    if(N == 3) goto L1540;
-    //CCC **** END OF YEAR 1 **** 332
-    if(N == 4) goto L1520;
-    if(N == 5) goto L1500;
-    //CCC **** END OF YEAR 2 **** 335
+    if(N == 1) { // Year 1
+        L1490
+    }
+    if(N == 2) { // Year 1
+        N2
+    }
+    if(N == 3) { // Year 1
+        N3
+    }
+    if(N == 4) { // Year 2
+        N4
+    }
+    if(N == 5) { // Year 2
+        N5
+    }
     /*
     if(N == 6) goto L1520;
     if(N == 7) goto L1500;
@@ -385,101 +484,11 @@ L1430:
     if(N == 20) goto L1520;
     if(N == 21) goto L1500;
     */
-    //CCC **** END OF YEAR 1O **** 359
-    if(N == 22) goto L1760;
+    if(N == 22) goto L1760; // After year 10
     
-    // TODO: Handles different years
-L1490:
-    MGO = MGW;
-    MF = MF1;
-    MUGA = MUG1;
-    N = N + 1;
-    J = J + 1;
-    JJ = 1; // ! year;
-    MFA = MF;
-    TIS = TI;
-    int b=TI/1.0;
-    TP = (b)*1.0+TPI;
-    TZ1 = TP+TZ4;
-    TZ2 = TZ1+TZ5;
-    TZ3 = TZ3E;
-    QBC = QBC1;
-    goto L1210;
-L1500:
-    MGO = MGW;
-    MUGA = MUGW;
-    MFA = MFS;
-    N = N+1;
-    MU = MUD;
-    TZ2 = TZ1+TZS;
-    TIS = TI;
-    QBC = QBC5;
-    goto L1553;
-L1520:
-    MGO = MGW;
-    MUGA = MUGS;
-    MFA = MFS;
-    N = N+1;
-    MU = MUD;
-    JJ = JJ+1;
-    TIS = TI;
-    TZ1 = TZ2+TZ6;
-    QBC = QBC4;
-    goto L1551;
-L1540:
-    MGO = MGW;
-    MUGA = MUGW;
-    MFA = MFS;
-    N = N+1;
-    JJ = 1;
-    MU = MUD;
-    TIS = TI;
-    QBC = QBC3;
-    TZ2 = TZ1+TZS;
-    goto L1550;
-L1204:
-    MGO = MGW;
-    MF = MF2;
-    MUGA = MUG2;
-    N = N+1;
-    JJ = 1;
-    MFA = MF;
-    MU = MUD;
-    TIS = TI;
-    TZ1 = TZ2+TZ6;
-    QBC = QBC2;
-    goto L1550;
-L1210:
-    MU = MUD;
-    TAUP = TP+MUGA*.134*RHOW/MUD-TPI;
-    TPIW = 168.0;
+    L1490 // Years that aren't list above
     
-    // Output year number
-L1550:
-    fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ);
-    fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL");
-    goto L1555;
-L1551:
-    fprintf(fptr,"\t\t\tYEAR=%d\n",JJ);
-    fprintf(fptr,"S\t\tUMMER WATER WITHDRAWAL");
-    goto L1555;
-L1553:
-    fprintf(fptr,"\t\t\tYEAR=%d\n",JJ);
-    fprintf(fptr,"W\t\tINTER WATER WITHDRAWAL");
-L1555:
-    fprintf(fptr,"\n");
-
-    // ****** Initial parameter output ******
-    fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr \t=\t%f\n",MFA);
-    fprintf(fptr,"BOILER WATER TEMPERATURE DEG F \t=\t%f\n",TWB);
-    fprintf(fptr,"WATER WITHDRAWAL GAL/DAY \t\t=\t%f\n",MUGA);
-    fprintf(fptr,"WITHDRAWAL FLOW RATE GAL/MIN \t=\t%f\n",MUD/(8.04*RHOW));
-    fprintf(fptr,"CONVECTIVE COEFF AFTER R=30 FT BTU/HR-FT2-F \t=\t%f\n",HS);
-    fprintf(fptr,"START WITHDRAWAL AT HOUR \t\t=\t%f\n",TI);
-    fprintf(fptr,"\n");
-    goto L400;
-    
-    // ******* More outputs ******
+    // ******* Ending Output ******
 L1760:
     fprintf(fptr,"\n");
     fprintf(fptr,"TOTAL ENERGY INPUT BTU = %e\n",E);
