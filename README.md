@@ -42,14 +42,14 @@ TL;DR is jumping (via goto) out and back into a for loop in fortran and C is ide
 
 The C code produces **identical** but more **precise** outputs to the rodwell code. The way the C code is organized is that it is split between 2 files and outputs are sent to `output.txt`
 
-#### main.c 
+#### `main.c` 
 It's just a direct conversion from the fortran code, Professor Lembeck had various difference's that cause the intial NaN's values observed that has been fixed. There were also various random things that didn't do anything that were removed.  
 
 The code was also changed so that it used as little goto's as possible. There are only a couple goto's left that couldn't be changed without making the code more unreadible. Unfortunately, the goto statement that goes out of the loop and back into the loop is still there since there wasn't a accurate way of removing it. A lot of the code was cluttering it so it was moved to the header file. But the code is accurate and more readible now. 
 
 **Note:** None of the issues with the wrong gal/day values were fixed because it appears that is an issue with the math. Regarding the weird day increment that might also be a planned feature of the code it is still unclear so that was not changed. 
 
-#### main.h 
+#### `main.h` 
 This file was added, but it contains macros for the year dispatch in the c code. That was the code that handles different time (N values) and changes variables accordingly. That was changed to a macro in the header file (N1, N2, N3, N4, N5).
   
 There was a repetive output code that was changed into a function `print_initial_parameter`.  
