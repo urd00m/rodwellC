@@ -5,8 +5,12 @@
 
 //#define DEBUG 1
 
-// L1490 code just put into a macro
-#define L1490 MGO = MGW;  \
+/*
+    N1-N3 seem to be for year 1
+    N4-N5 are repeated for every year after so (year 2....N)
+ */
+// N1 code just put into a macro
+#define N1 MGO = MGW;  \
                 MF = MF1;  \
                 MUGA = MUG1;  \
                 N = N + 1;  \
@@ -92,5 +96,13 @@
                 print_initial_parameter(fptr, MFA, TWB, MUGA, MUD, RHOW, HS, TI); \
                 goto L400;
 
-void print_initial_parameter(FILE *fptr, double MFA, double TWB, double MUGA, double MUD, double RHOW, double HS, double TI);
-
+// Prints the intial paramters
+void print_initial_parameter(FILE *fptr, double MFA, double TWB, double MUGA, double MUD, double RHOW, double HS, double TI) {
+    fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr \t=\t%f\n",MFA);
+    fprintf(fptr,"BOILER WATER TEMPERATURE DEG F \t=\t%f\n",TWB);
+    fprintf(fptr,"WATER WITHDRAWAL GAL/DAY \t\t=\t%f\n",MUGA);
+    fprintf(fptr,"WITHDRAWAL FLOW RATE GAL/MIN \t=\t%f\n",MUD/(8.04*RHOW));
+    fprintf(fptr,"CONVECTIVE COEFF AFTER R=30 FT BTU/HR-FT2-F \t=\t%f\n",HS);
+    fprintf(fptr,"START WITHDRAWAL AT HOUR \t\t=\t%f\n",TI);
+    fprintf(fptr,"\n");
+}

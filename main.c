@@ -1,16 +1,5 @@
 #include "main.h"
 
-// Prints the intial paramters
-void print_initial_parameter(FILE *fptr, double MFA, double TWB, double MUGA, double MUD, double RHOW, double HS, double TI) {
-    fprintf(fptr,"BOILER WATER FLOW RATE lbm/hr \t=\t%f\n",MFA);
-    fprintf(fptr,"BOILER WATER TEMPERATURE DEG F \t=\t%f\n",TWB);
-    fprintf(fptr,"WATER WITHDRAWAL GAL/DAY \t\t=\t%f\n",MUGA);
-    fprintf(fptr,"WITHDRAWAL FLOW RATE GAL/MIN \t=\t%f\n",MUD/(8.04*RHOW));
-    fprintf(fptr,"CONVECTIVE COEFF AFTER R=30 FT BTU/HR-FT2-F \t=\t%f\n",HS);
-    fprintf(fptr,"START WITHDRAWAL AT HOUR \t\t=\t%f\n",TI);
-    fprintf(fptr,"\n");
-}
-
 int main(void) {
     int i,J,JJ;
     double TZ3,MGO,QBC,MF,TZ4,QBC1,MUG1,MF1,TZ3E;
@@ -194,7 +183,7 @@ int main(void) {
         if (TI > TZ3) goto L1220;                   // time > formation period
         if (J == 1) goto L280;                      // not sure why we branch here, bulb formation?
 
-L400:
+L400:   // Statements jump back here
         if (TI < TAUP) {                            // not sure what taup is
             MF = 0.0;
             MUG = MUGA;
@@ -218,7 +207,6 @@ L280:
         // assumes full shut-off of water leakage into firn at ZS
         ZPS = HWB-ZS;
         ASP = 2.0*PI*D*H/3.0;
-        
         if(ZPS > H) {
             ASP=0.0;
         } else if (HWB > 25.0){
@@ -288,7 +276,7 @@ L280:
             }
             if(TI > TP) {
                 TP = TP + TPI;
-                TAUP = TP +MUGA * .134 * RHOW/MUD - TPI ;
+                TAUP = TP + MUGA * .134 * RHOW/MUD - TPI ;
             }
         }
         
@@ -314,7 +302,7 @@ L280:
     
     goto L1760;                                 // Jump to finished output
     
-L1220: // Print item in table
+L1220: // Print item in table and year dispatch
     fprintf(fptr,"%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.1f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f,\t%4.2f\n",TI, TWP, TAP, TS, MWG, D, HW, HWBP, AIP, VAP);
     fprintf(fptr,"\n");
     EI = E - EIT;
@@ -350,10 +338,10 @@ L1220: // Print item in table
     fprintf(fptr,"TOTAL WATER LOSS GAL \t\t=\t%f\n",PLT/(.134*RHOW));
     fprintf(fptr,"SEASONAL WATER LOSS GAL \t\t=\t%f\n",PLG);
     
-    // TODO: Looks like year dispatch
+    // Year dispatch - defined in header file macros
     fprintf(fptr,"\n");
     if(N == 1) { // Year 1
-        L1490
+        N1
     }
     if(N == 2) { // Year 1
         N2
@@ -369,7 +357,7 @@ L1220: // Print item in table
     }
     /*
     if(N == 6) goto L1520;
-    if(N == 7) goto L1500;
+    if(N == 7) goto L1500; 
     //CCC **** END OF YEAR 3 **** 338
     if(N == 8) goto L1520;
     if(N == 9) goto L1500;
@@ -394,7 +382,7 @@ L1220: // Print item in table
     */
     if(N == 22) goto L1760; // After year 10
     
-    L1490 // Years that aren't list above
+    N1 // Years that aren't list above
     
     // ******* Ending Output ******
 L1760:
