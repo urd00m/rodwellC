@@ -1,5 +1,5 @@
 # Instructions 
-To install the repository run `git clone ...`
+To install the repository run `git clone https://github.com/urd00m/rodwellC.git`
 
 ## Run the Fortran Code 
 1. `make fortran` you should see a file called fortran.out be generated
