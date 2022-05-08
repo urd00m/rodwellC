@@ -1,6 +1,6 @@
 CC=gcc
 FF=gfortran
-CFLAGS=-O0 -Wall -I.
+CFLAGS=-O0 -Wall -I. -g
 FFLAGS=-ffree-line-length-512 -ffree-form
 
 main: main.c

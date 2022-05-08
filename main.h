@@ -25,7 +25,7 @@
                 QBC = QBC1;  \
                 MU = MUD;  \
                 TAUP = TP+MUGA*.134*RHOW/MUD-TPI;  \
-                TPIW = 168.0;  \
+                TPIW = TPIW_SET_N1;  \
                 fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ);  \
                 fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL");  \
                 fprintf(fptr,"\n");  \

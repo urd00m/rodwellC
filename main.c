@@ -8,7 +8,7 @@ int main(void) {
     double DT,EIT,E,FI,GAM,H,HA,HB,HI,HS,HBN,HSN,HSO,KI,MU,MUD,MWG;
     double MFS,MFW,MUGS,MUGW;
     double MGW,N,OMEGA,PI,PL,PM,PLT,PMT,PRWT,QS,QT,QTT,QIT,RA,RHOIS,RHOIM;
-    double RHOW,RO,TAUP,TI,TIS,TP,TPI,TPIW,TZ1,TZ2,TF,TICE,TWB,TA,TS,TW,ZS,TZS;
+    double RHOW,RO,TAUP,TI,TIS,TP,TPI,TPIW,TZ1,TZ2,TF,TICE,TWB,TA,TS,TW,ZS,TZS,TPIW_SET_N1;
     double D,MFA,MW,MWO,HWB,MWGA,LE,AB,HW,AS,VW,AI,VA;
     double MUGA,MUG,ZP,RHOI,ZPP,ZPS,ASP,MUL,DELH,HP,DP,HWBP;
     double TWP,MWP,HF,VWP,DF,EP,PMP,PLP,VAP,AIP;
@@ -43,28 +43,29 @@ int main(void) {
      */
     
     // ****** PUT YOUR INPUTS HERE ******
-    TZ3=216.0;
-    MGO=12186.0;
-    QBC=68242.84;
-    MF=52073.0;
-    TZ4=2064.0;
-    QBC1=68242.84;
-    MUG1=10.0;
-    MF1=52073.0;
+    TZ3=216.0; // First table time end, then becomes large number (maybe full stop time)
     TZ3E=88000.0;
-    TZ5=96.0;
-    QBC2=0.0;
-    MF2=52073.0;
-    TZ6=5088.0;
+    TZ4=2064.0; // TZ4 increment for TZ1
+    TZ5=96.0;  // TZ5 increment for TZ2
+    TZ6=5088.0; // TZ6 increment unknown what for
+    TPIW_SET_N1=168.0; // Sets TPIW (increment for table time print) after first table
+    MGO=12186.0;
+    MUG1=10.0;
     MUG2=1000.0;
+    MUGS=10.0;
+    MUGW=10.0;
+    MF=52073.0;
+    MF1=52073.0;
+    MF2=52073.0;
+    MFS=52073.0;
+    MFW=52073.0;
+    QBC=68242.84;
+    QBC1=68242.84;
+    QBC2=0.0;
     QBC3=68242.84;
     QBC4=68242.84;
     QBC5=68242.84;
     DEPTH=160.0;
-    MFS=52073.0;
-    MFW=52073.0;
-    MUGS=10.0;
-    MUGW=10.0;
     TICE=-80.0;
     TWB=68.0;
     // ****** END YOUR INPUTS HERE ******
@@ -112,7 +113,7 @@ int main(void) {
     RA = 1.5;                                       // ft, drill radius
     RHOIS = 45.0;                                   // lbm/ft3, start close-off density of firn
     RHOIM = 57.54;                                  // lbm/ft3, max firn density
-    RHOW = 62.6;                                    // lbm/ft3, water density
+    RHOW = 62.6;                                    // lbm/ft3, water density  (VERIFIED)
     RO = RA;                                        // ft
     
     // ****** TIME PARAMETERS ******
@@ -122,8 +123,8 @@ int main(void) {
     TP = 8.0;
     TPI = 8.0;
     TPIW = 8.0;
-    TZ1 = 8760.0;                                   // 8760 days is one year
-    TZ2 = 240.0;
+    TZ1 = 8760.0;                                   // 8760 hours is 1 earth year
+    TZ2 = 240.0;                                    // 240 hours is 10 earth days
     TZS = TZ1 - TZ6;
     
     // ****** TEMPERATURES ******
