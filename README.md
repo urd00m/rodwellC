@@ -19,7 +19,7 @@ Note there is also the command that combines the above 2 steps.
 
 ## Run the data parser for the c code 
 * If you have anaconda open up the python notebook in `dataParser/output_parser_c.ipynb` 
-* Or in terminal run `python dataParser/table_reader.py`
+* Or in terminal run `python dataParser/table_reader.py` to read the table data and `python dataParser/non_table_reader.py` for non table data
 
 ## Other Features 
 - `make clean` standard cleaning, removes all object (*.out) files
