@@ -17,6 +17,10 @@ Note there is a shortcut to run everything above much quicker but there must be 
 Note there is also the command that combines the above 2 steps. 
 1. `make test`
 
+## Run the data parser for the c code 
+* If you have anaconda open up the python notebook in `dataParser/output_parser_c.ipynb` 
+* Or in terminal run `python dataParser/table_reader.py`
+
 ## Other Features 
 - `make clean` standard cleaning, removes all object (*.out) files
 - `make goto` compiles goto c testing code 
