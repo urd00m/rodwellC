@@ -43,6 +43,7 @@
                 TIS = TI; \
                 TZ1 = TZ2+TZ6; \
                 QBC = QBC2; \
+                fprintf(fptr, "n2 hit\n"); \
                 fprintf(fptr,"\t\t\tYEAR\t=\t%d\n",JJ); \
                 fprintf(fptr,"\t\tSTANDBY OR WATER WITHDRAWAL"); \
                 fprintf(fptr,"\n"); \

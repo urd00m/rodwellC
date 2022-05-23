@@ -17,16 +17,16 @@ int main(void) {
 
     FILE *fptr;
      
-    printf("Hello RASC-AL World!\n");
+    fprintf(stdout,"Hello RASC-AL World!\n");
     char path[200];
 
     getcwd(path, 200);
-    printf("Current working directory: %s\n", path);
+    fprintf(stdout,"Current working directory: %s\n", path);
 
 
     /*
     if ((fptr = fopen("input.txt","r")) == NULL){
-        printf("Error: opening file for read\n");
+        fprintf(stdout,"Error: opening file for read\n");
 
         // Program exits if the file pointer returns NULL.
         return(1);
@@ -151,7 +151,7 @@ int main(void) {
 
     // Open output file
     if ((fptr = fopen("./output.txt","w")) == NULL){
-        printf("Error: opening file for write\n");
+        fprintf(stdout,"Error: opening file for write\n");
 
         // Program exits if the file pointer returns NULL.
         return(1);
@@ -179,10 +179,16 @@ int main(void) {
     
     //******************TOP OF LOOP***********************
     for(i=1;  i<=11250000; i++) {
-        //printf("TIME=%f\n",TI);
-        if (MWG > MGO) goto L1220;                  // bulb water volume > initilaize volume
-        if (TI > TZ3) goto L1220;                   // time > formation period
-        if (J == 1) goto L280;                      // not sure why we branch here, bulb formation?
+        //fprintf(stdout,"TIME=%f\n",TI);
+        if (MWG > MGO) {
+            goto L1220;                  // bulb water volume > initilaize volume
+        }
+        if (TI > TZ3) {
+            goto L1220;                   // time > formation period
+        }
+        if (J == 1) {
+            goto L280;                      // not sure why we branch here, bulb formation?
+        }
 
 L400:   // Statements jump back here
         if (TI < TAUP) {                            // not sure what taup is
@@ -197,7 +203,11 @@ L400:   // Statements jump back here
 L280:
         ZP = HWB-H/2.0;                             // ft, average bulb depth
         RHOI = 20.18 + 2.4996 * pow(ZP,0.45);
-        if(ZP > 394.0) RHOI=RHOIM;
+        if(ZP > 394.0) {
+        }
+        if(ZP > 394.0) {
+            RHOI=RHOIM;
+        }
     
         // compute the change in water depth, h (eq. 7)
         DELH = 16.0*H*(HS*(TW-TF)-QS)*DT/(RHOI*LE*3.0*(2.0*GAM*H+D));
@@ -210,7 +220,7 @@ L280:
         ASP = 2.0*PI*D*H/3.0;
         if(ZPS > H) {
             ASP=0.0;
-        } else if (HWB > 25.0){
+        } else if (HWB > 25.0) {
             ZPP = (ZS+HWB-H)/2.0;
             ASP = 2.0*PI*D*H*(1.0-pow((ZPS/H),1.5))/3.0;
             RHOI = 20.18 + 2.4996 * pow(ZPP,0.45);
@@ -218,8 +228,9 @@ L280:
         
         // water mass lost to rn
         MUL = AL*ASP*(RHOIS - RHOI);
-        if(MF != 0.0)
+        if(MF != 0.0) {
             TWB = QBC/(CPW*MF) + TW;
+        }
         
         // Unknown what this is doing
         TWP = TW+(MF*(TWB-TW)-HS*AS*(TW-TF)*(1.0/CPW+(TW-TF)/LE-QS/(LE*HS))-HA*AB*(TW-TA)/CPW)*DT/MW;
@@ -296,8 +307,13 @@ L280:
         else {
             HS = HSO;
         }
-        if(TW < 32.0001) TW = 32.0; // TW drops to low, reset it
-        if(TI > TZ2 || TI > TZ1) goto L1220;
+        
+        if(TW < 32.0001) {
+            TW = 32.0; // TW drops to low, reset it
+        }
+        if(TI > TZ2 || TI > TZ1) {
+            goto L1220;
+        }
     }
     //******************END OF LOOP***********************
     

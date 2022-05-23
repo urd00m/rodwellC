@@ -31,3 +31,6 @@ fortran-goto: fortran_goto.f
 test-fortran-goto: fortran-goto
 	rm fortrangoto.txt
 	./fortran_goto.out
+
+orig: orig_c.c
+	$(CC) $(CFLAGS) -o orig.out $^
